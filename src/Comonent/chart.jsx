@@ -18,8 +18,7 @@ const Chart = () => {
   useEffect(() => {
     const fetchDemandOutputData = async () => {
       try {
-        const queryOperators = "";
-        const result = await DomoApi.getData("Demand_Output", queryOperators);
+        const result = await DomoApi.getData("Demand_Output");
         console.log("Fetched Demand_Output Data:", result);
 
         const transformedData = transformDomoData(result);
