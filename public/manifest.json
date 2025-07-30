@@ -1,8 +1,46 @@
 {
-    "name": "Project Name",
-    "version": "0.0.1",
-    "size": {
-        "width": 3,
-        "height": 3
+  "short_name": "Retail-chart",
+  "name": "Reatail chart",
+  "version": "1.0.0",
+  "icons": [
+    {
+      "src": "logo-sm.png",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "thumbnail.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "thumbnail.png",
+      "type": "image/png",
+      "sizes": "512x512"
     }
+  ],
+  "size": {
+    "width": 7,
+    "height": 3
+  },
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff",
+  "collections": [],
+  "mapping": [
+    {
+      "dataSetId": "93e58410-8002-4677-8393-9a7a149b8856",
+      "alias": "Demand_Output",
+      "fields": [
+        { "alias": "x_axis", "columnName": "ds" },
+        { "alias": "Y_axis", "columnName": "y" },
+        { "alias": "Fabric", "columnName": "Fabric_Mapped" },
+        { "alias": "Type", "columnName": "Type" }
+      ]
+    }
+  ],
+  "fileName": "manifest.json",
+  "id": "7550d036-fb4f-4d52-87a0-25db34e0c7c6",
+  "proxyId": "d4257e46-eee1-4140-a83a-f6e095679f69"
 }

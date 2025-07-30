@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   LineChart,
   Line,
@@ -9,277 +9,151 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import DomoApi from "../helper/DomoApi";
 
-const data = [
-  {
-    name: "2023-10",
-    "Cotton - Actual": 5000,
-    "Cotton - Forecast": 4800,
-    "Polyester - Actual": 1000,
-    "Polyester - Forecast": 900,
-    "Viscose - Actual": 200,
-    "Viscose - Forecast": 180,
-  },
-  {
-    name: "2023-11",
-    "Cotton - Actual": 10000,
-    "Cotton - Forecast": 9500,
-    "Polyester - Actual": 1200,
-    "Polyester - Forecast": 1100,
-    "Viscose - Actual": 250,
-    "Viscose - Forecast": 220,
-  },
-  {
-    name: "2023-12",
-    "Cotton - Actual": 16000,
-    "Cotton - Forecast": 15500,
-    "Polyester - Actual": 1500,
-    "Polyester - Forecast": 1400,
-    "Viscose - Actual": 300,
-    "Viscose - Forecast": 280,
-  },
-  {
-    name: "2024-01",
-    "Cotton - Actual": 12000,
-    "Cotton - Forecast": 11500,
-    "Polyester - Actual": 1000,
-    "Polyester - Forecast": 950,
-    "Viscose - Actual": 220,
-    "Viscose - Forecast": 200,
-  },
-  {
-    name: "2024-02",
-    "Cotton - Actual": 20000,
-    "Cotton - Forecast": 19000,
-    "Polyester - Actual": 1800,
-    "Polyester - Forecast": 1700,
-    "Viscose - Actual": 350,
-    "Viscose - Forecast": 320,
-  },
-  {
-    name: "2024-03",
-    "Cotton - Actual": 18000,
-    "Cotton - Forecast": 17500,
-    "Polyester - Actual": 1600,
-    "Polyester - Forecast": 1500,
-    "Viscose - Actual": 300,
-    "Viscose - Forecast": 280,
-  },
-  {
-    name: "2024-04",
-    "Cotton - Actual": 22000,
-    "Cotton - Forecast": 21000,
-    "Polyester - Actual": 2000,
-    "Polyester - Forecast": 1900,
-    "Viscose - Actual": 400,
-    "Viscose - Forecast": 380,
-  },
-  {
-    name: "2024-05",
-    "Cotton - Actual": 15000,
-    "Cotton - Forecast": 14500,
-    "Polyester - Actual": 1300,
-    "Polyester - Forecast": 1200,
-    "Viscose - Actual": 280,
-    "Viscose - Forecast": 250,
-  },
-  {
-    name: "2024-06",
-    "Cotton - Actual": 25000,
-    "Cotton - Forecast": 24000,
-    "Polyester - Actual": 2200,
-    "Polyester - Forecast": 2100,
-    "Viscose - Actual": 450,
-    "Viscose - Forecast": 420,
-  },
-  {
-    name: "2024-07",
-    "Cotton - Actual": 17000,
-    "Cotton - Forecast": 16500,
-    "Polyester - Actual": 1400,
-    "Polyester - Forecast": 1300,
-    "Viscose - Actual": 320,
-    "Viscose - Forecast": 300,
-  },
-  {
-    name: "2024-08",
-    "Cotton - Actual": 28000,
-    "Cotton - Forecast": 27000,
-    "Polyester - Actual": 2500,
-    "Polyester - Forecast": 2400,
-    "Viscose - Actual": 500,
-    "Viscose - Forecast": 480,
-  },
-  {
-    name: "2024-09",
-    "Cotton - Actual": 20000,
-    "Cotton - Forecast": 19500,
-    "Polyester - Actual": 1800,
-    "Polyester - Forecast": 1700,
-    "Viscose - Actual": 380,
-    "Viscose - Forecast": 350,
-  },
-  {
-    name: "2024-10",
-    "Cotton - Actual": 33000, // Peak
-    "Cotton - Forecast": 32000,
-    "Polyester - Actual": 2800,
-    "Polyester - Forecast": 2700,
-    "Viscose - Actual": 550,
-    "Viscose - Forecast": 520,
-  },
-  {
-    name: "2024-11",
-    "Cotton - Actual": 28000,
-    "Cotton - Forecast": 27000,
-    "Polyester - Actual": 2500,
-    "Polyester - Forecast": 2400,
-    "Viscose - Actual": 500,
-    "Viscose - Forecast": 480,
-  },
-  {
-    name: "2024-12",
-    "Cotton - Actual": 25000,
-    "Cotton - Forecast": 24000,
-    "Polyester - Actual": 2200,
-    "Polyester - Forecast": 2100,
-    "Viscose - Actual": 450,
-    "Viscose - Forecast": 420,
-  },
-  {
-    name: "2025-01",
-    "Cotton - Actual": 27000,
-    "Cotton - Forecast": 26000,
-    "Polyester - Actual": 2400,
-    "Polyester - Forecast": 2300,
-    "Viscose - Actual": 480,
-    "Viscose - Forecast": 450,
-  },
-  {
-    name: "2025-02",
-    "Cotton - Actual": 28000,
-    "Cotton - Forecast": 27000,
-    "Polyester - Actual": 2500,
-    "Polyester - Forecast": 2400,
-    "Viscose - Actual": 500,
-    "Viscose - Forecast": 480,
-  },
-  {
-    name: "2025-03",
-    "Cotton - Actual": 27500,
-    "Cotton - Forecast": 26500,
-    "Polyester - Actual": 2450,
-    "Polyester - Forecast": 2350,
-    "Viscose - Actual": 490,
-    "Viscose - Forecast": 460,
-  },
-  {
-    name: "2025-04",
-    "Cotton - Actual": 29000,
-    "Cotton - Forecast": 28000,
-    "Polyester - Actual": 2600,
-    "Polyester - Forecast": 2500,
-    "Viscose - Actual": 520,
-    "Viscose - Forecast": 490,
-  },
-  {
-    name: "2025-05",
-    "Cotton - Actual": 28500,
-    "Cotton - Forecast": 27500,
-    "Polyester - Actual": 2550,
-    "Polyester - Forecast": 2450,
-    "Viscose - Actual": 510,
-    "Viscose - Forecast": 480,
-  },
-  {
-    name: "2025-06",
-    "Cotton - Actual": 29500,
-    "Cotton - Forecast": 28500,
-    "Polyester - Actual": 2650,
-    "Polyester - Forecast": 2550,
-    "Viscose - Actual": 530,
-    "Viscose - Forecast": 500,
-  },
-  {
-    name: "2025-07",
-    "Cotton - Actual": 28800,
-    "Cotton - Forecast": 27800,
-    "Polyester - Actual": 2580,
-    "Polyester - Forecast": 2480,
-    "Viscose - Actual": 515,
-    "Viscose - Forecast": 485,
-  },
-];
+const Chart = () => {
+  const [chartData, setChartData] = useState([]);
+  console.log("chartData", chartData);
 
-const chart = () => {
+  useEffect(() => {
+    const fetchDemandOutputData = async () => {
+      try {
+        const queryOperators = "";
+        const result = await DomoApi.getData("Demand_Output", queryOperators);
+        console.log("Fetched Demand_Output Data:", result);
+
+        const transformedData = transformDomoData(result);
+        setChartData(transformedData);
+      } catch (error) {
+        console.error("Failed to fetch Demand_Output data:", error);
+      }
+    };
+
+    fetchDemandOutputData();
+  }, []);
+
+  const transformDomoData = (data) => {
+    const transformed = {};
+
+    data.forEach((item) => {
+      const date = item.x_axis ? new Date(item.x_axis) : null;
+      console.log("date", date);
+
+      if (!date) {
+        console.warn("Skipping data point with invalid date:", item);
+        return;
+      }
+
+      const year = date.getFullYear();
+      const month = (date.getMonth() + 1).toString().padStart(2, "0");
+      const monthYear = `${year}-${month}`;
+
+      if (!transformed[monthYear]) {
+        transformed[monthYear] = { name: monthYear };
+      }
+
+      const dataKey = `${item.Fabric} - ${item.Type}`;
+      transformed[monthYear][dataKey] = parseFloat(item.Y_axis) || 0;
+    });
+
+    const sortedTransformedData = Object.values(transformed).sort((a, b) =>
+      a.name.localeCompare(b.name)
+    );
+
+    return sortedTransformedData;
+  };
+
   return (
-    <div style={{ width: "100%", height: 500 }}>
-      <ResponsiveContainer>
-        <LineChart
-          data={data}
-          margin={{
-            top: 20,
-            right: 30,
-            left: 20,
-            bottom: 5,
-          }}
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+        minHeight: "100vh",
+        backgroundColor: "#f9f9f9",
+        padding: "2rem",
+      }}
+    >
+      <div
+        style={{
+          width: "90%",
+          maxWidth: "1000px",
+          backgroundColor: "#ffffff",
+          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+          borderRadius: "10px",
+          padding: "1.5rem",
+        }}
+      >
+        <h2
+          style={{ textAlign: "center", marginBottom: "1.5rem", color: "#333" }}
         >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          {/* Cotton Lines */}
-          <Line
-            type="monotone"
-            dataKey="Cotton - Actual"
-            stroke="#8884d8" // A common blue/purple color
-            activeDot={{ r: 8 }}
-            strokeWidth={2}
-          />
-          <Line
-            type="monotone"
-            dataKey="Cotton - Forecast"
-            stroke="#82ca9d" // A common green color
-            strokeDasharray="5 5" // Dashed line for forecast
-            strokeWidth={2}
-          />
+          Monthly Demand Output by Fabric and Type
+        </h2>
 
-          {/* Polyester Lines */}
-          <Line
-            type="monotone"
-            dataKey="Polyester - Actual"
-            stroke="#ffc658" // A common orange/yellow color
-            activeDot={{ r: 8 }}
-            strokeWidth={2}
-          />
-          <Line
-            type="monotone"
-            dataKey="Polyester - Forecast"
-            stroke="#ff7300" // A darker orange
-            strokeDasharray="5 5"
-            strokeWidth={2}
-          />
-
-          {/* Viscose Lines */}
-          <Line
-            type="monotone"
-            dataKey="Viscose - Actual"
-            stroke="#00C49F" // A common teal color
-            activeDot={{ r: 8 }}
-            strokeWidth={2}
-          />
-          <Line
-            type="monotone"
-            dataKey="Viscose - Forecast"
-            stroke="#FFBB28" // A common yellow color
-            strokeDasharray="5 5"
-            strokeWidth={2}
-          />
-        </LineChart>
-      </ResponsiveContainer>
+        {chartData.length > 0 ? (
+          <ResponsiveContainer width="100%" height={400}>
+            <LineChart
+              data={chartData}
+              margin={{ top: 20, right: 30, left: 0, bottom: 5 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Line
+                type="monotone"
+                dataKey="Cotton - Actual"
+                stroke="#8884d8"
+                activeDot={{ r: 8 }}
+                strokeWidth={2}
+              />
+              <Line
+                type="monotone"
+                dataKey="Cotton - Forecast"
+                stroke="#82ca9d"
+                strokeDasharray="5 5"
+                strokeWidth={2}
+              />
+              <Line
+                type="monotone"
+                dataKey="Polyester - Actual"
+                stroke="#ffc658"
+                activeDot={{ r: 8 }}
+                strokeWidth={2}
+              />
+              <Line
+                type="monotone"
+                dataKey="Polyester - Forecast"
+                stroke="#ff7300"
+                strokeDasharray="5 5"
+                strokeWidth={2}
+              />
+              <Line
+                type="monotone"
+                dataKey="Viscose - Actual"
+                stroke="#00C49F"
+                activeDot={{ r: 8 }}
+                strokeWidth={2}
+              />
+              <Line
+                type="monotone"
+                dataKey="Viscose - Forecast"
+                stroke="#FFBB28"
+                strokeDasharray="5 5"
+                strokeWidth={2}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        ) : (
+          <p style={{ textAlign: "center", color: "#777" }}>
+            Loading chart data or no data available...
+          </p>
+        )}
+      </div>
     </div>
   );
 };
 
-export default chart;
+export default Chart;
